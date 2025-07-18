@@ -14,6 +14,9 @@ namespace API.Controllers
             _movieService = movieService;
         }
 
+        /// <summary>
+        /// Retrieves a list of all movies.
+        /// </summary>
         [HttpGet("Get")]
         public IActionResult GetMovies()
         {
