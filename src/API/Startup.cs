@@ -1,8 +1,10 @@
 ﻿using Application;
 using Application.Interfaces;
 using Application.Services;
+using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -25,6 +27,13 @@ namespace API
 
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
+
+            // Registrar EF Core InMemory para leads
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseInMemoryDatabase("LeadsDatabase"));
+
+            // Registrar el repositorio
+            services.AddScoped<ILeadRepository, LeadRepository>();
 
             services.AddMemoryCache();
 
