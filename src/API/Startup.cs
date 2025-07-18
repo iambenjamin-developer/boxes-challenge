@@ -1,6 +1,9 @@
 ﻿using Application;
 using Application.Interfaces;
 using Application.Services;
+using Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -24,9 +27,6 @@ namespace API
         {
             // Add services to the container.
             services.AddApplicationServices(Configuration);
-
-   
-          
 
             // Registrar EF Core InMemory para leads
             services.AddDbContext<AppDbContext>(options =>
@@ -55,6 +55,10 @@ namespace API
             });
 
             services.AddControllers();
+
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<LeadRequestValidator>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
