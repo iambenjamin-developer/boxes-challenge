@@ -2,13 +2,13 @@
 {
     public class Movie
     {
-        public Guid Id { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
-        public string Genre { get; private set; }
-        public DateTime ReleaseDate { get; private set; }
-        public int DurationMinutes { get; private set; }
-        public double Rating { get; private set; }
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Genre { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public int DurationMinutes { get; set; }
+        public double Rating { get; set; }
 
         // Constructor para inicialización
         public Movie(string title, string description, string genre, DateTime releaseDate, int durationMinutes, double rating)
