@@ -49,7 +49,6 @@ namespace API.Controllers
             await _leadRepository.AddAsync(lead);
             var leads = await _leadRepository.GetAllAsync();
             */
-            return Ok(result);
         }
 
 
