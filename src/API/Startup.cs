@@ -25,6 +25,9 @@ namespace API
 
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
+
+            services.AddMemoryCache();
+
             services.AddHttpClient<IWorkshopService, WorkshopService>(client =>
             {
                 client.BaseAddress = new Uri("https://dev.tecnomcrm.com/api/v1/");
