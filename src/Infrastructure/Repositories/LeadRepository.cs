@@ -13,15 +13,20 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Lead lead)
-        {
-            await _context.Leads.AddAsync(lead);
-            await _context.SaveChangesAsync();
-        }
 
         public async Task<List<Lead>> GetAllAsync()
         {
             return await _context.Leads.ToListAsync();
         }
+
+
+        public async Task<Lead> AddAsync(Lead entity)
+        {
+            await _context.Leads.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            return entity;
+        }
+
     }
 }

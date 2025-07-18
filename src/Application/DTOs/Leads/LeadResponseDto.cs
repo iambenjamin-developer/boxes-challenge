@@ -4,6 +4,9 @@ namespace Application.DTOs.Leads
 {
     public class LeadResponseDto
     {
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+
         [JsonPropertyName("place_id")]
         public int PlaceId { get; set; }
 

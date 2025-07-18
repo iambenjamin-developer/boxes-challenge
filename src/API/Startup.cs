@@ -25,15 +25,21 @@ namespace API
             // Add services to the container.
             services.AddApplicationServices(Configuration);
 
-            services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddScoped<IMovieService, MovieService>();
+   
+          
 
             // Registrar EF Core InMemory para leads
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase("LeadsDatabase"));
 
-            // Registrar el repositorio
+            // Registrar el repositorios
             services.AddScoped<ILeadRepository, LeadRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+
+            // Registrar el servicios
+            services.AddScoped<ILeadRepository, LeadRepository>();
+            services.AddScoped<ILeadService, LeadService>();
+            services.AddScoped<IMovieService, MovieService>();
 
             services.AddMemoryCache();
 

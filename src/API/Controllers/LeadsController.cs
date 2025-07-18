@@ -1,8 +1,6 @@
 ﻿using Application.DTOs.Leads;
 using Application.Interfaces;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -10,19 +8,22 @@ namespace API.Controllers
     [ApiController]
     public class LeadsController : ControllerBase
     {
-        private readonly IWorkshopService _workshopService;
-        private readonly ILeadRepository _leadRepository;
+        private readonly ILeadService _leadService;
 
-        public LeadsController(IWorkshopService workshopService, ILeadRepository leadRepository)
+        public LeadsController(ILeadService leadService)
         {
-            _workshopService = workshopService;
-            _leadRepository = leadRepository;
+            _leadService = leadService;
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] LeadRequestDto request)
         {
+            var result = await _leadService.AddAsync(request);
+
+            var all = await _leadService.GetAllAsync();
+            return Ok(result);
+            /*
             var result = await _workshopService.GetActiveWorkshopsAsync();
 
             var lead = new Lead
@@ -47,6 +48,7 @@ namespace API.Controllers
 
             await _leadRepository.AddAsync(lead);
             var leads = await _leadRepository.GetAllAsync();
+            */
             return Ok(result);
         }
 
