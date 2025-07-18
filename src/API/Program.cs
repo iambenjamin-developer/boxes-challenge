@@ -1,3 +1,6 @@
+using Application.Interfaces;
+using Application.Services;
+using Infrastructure.Repositories;
 
 namespace API
 {
@@ -8,6 +11,8 @@ namespace API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+            builder.Services.AddScoped<IMovieService, MovieService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
