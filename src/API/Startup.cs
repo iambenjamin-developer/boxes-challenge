@@ -2,6 +2,9 @@
 using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace API
 {
@@ -22,6 +25,16 @@ namespace API
 
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddHttpClient<IWorkshopService, WorkshopService>(client =>
+            {
+                client.BaseAddress = new Uri("https://dev.tecnomcrm.com/api/v1/");
+                // Si quieres, puedes agregar encabezados por defecto:
+                var credentials = Convert.ToBase64String(
+                    Encoding.ASCII.GetBytes("max@tecnom.com.ar:b0x3sApp")
+                );
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Basic", credentials);
+            });
 
             services.AddControllers();
 
