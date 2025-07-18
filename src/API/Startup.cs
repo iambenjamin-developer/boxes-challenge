@@ -1,4 +1,7 @@
 ﻿using Application;
+using Application.Interfaces;
+using Application.Services;
+using Infrastructure.Repositories;
 
 namespace API
 {
@@ -16,6 +19,9 @@ namespace API
         {
             // Add services to the container.
             services.AddApplicationServices(Configuration);
+
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieService, MovieService>();
 
             services.AddControllers();
 
