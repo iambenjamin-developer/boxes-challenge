@@ -2,6 +2,7 @@
 
 ## Diagrama
 
+```mermaid
 flowchart TD
     A[Cliente] -->|POST /api/leads| B[LeadsController]
     B --> C[Validar campos requeridos]
@@ -12,3 +13,4 @@ flowchart TD
     D -->|place_id inválido| F[422 Unprocessable Entity]
 
     E --> G[201 Created + Lead registrado]
+```
