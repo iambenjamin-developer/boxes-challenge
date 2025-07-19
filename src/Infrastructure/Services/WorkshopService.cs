@@ -46,6 +46,21 @@ namespace Infrastructure.Services
 
             return response;
         }
+
+
+        public async Task<bool> ExistsAsync(int workshopId)
+        {
+            var workshops = await GetActiveWorkshopsAsync();
+
+            if (workshops.Count == 0)
+            {
+                throw new Exception($"No se encontraron talleres activos al verificar existencia de ID {workshopId}");
+            }
+
+            var workshopExists = workshops.Any(w => w.Id == workshopId && w.Active);
+
+            return workshopExists;
+        }
     }
 
 }
