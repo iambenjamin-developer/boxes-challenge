@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using FluentValidation;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Application.Validators
 {
@@ -19,10 +20,10 @@ namespace Application.Validators
                 .WithMessage("PlaceId es requerido y debe ser mayor que 0");
 
             // Validación de si el taller existe
-            //RuleFor(x => x.PlaceId)
-            //    .MustAsync(WorkshopExists)
-            //    .When(x => x.PlaceId > 0)
-            //    .WithMessage("El PlaceId no corresponde a un taller que exista o esté activo");
+            RuleFor(x => x.PlaceId)
+                .Must(WorkshopExists)
+                .When(x => x.PlaceId > 0)
+                .WithMessage("El PlaceId no corresponde a un taller que exista o esté activo");
 
             // Validación de appointment_at - required, formato ISO 8601
             RuleFor(x => x.AppointmentAt)
@@ -118,16 +119,10 @@ namespace Application.Validators
 
         }
 
-        private async Task<bool> WorkshopExists(int placeId, CancellationToken ct)
+        private bool WorkshopExists(int placeId)
         {
-            try
-            {
-                return await _workshopService.ExistsAsync(placeId, ct);
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            bool workshopExists = _workshopService.ExistsAsync(placeId).Result;
+            return workshopExists;
         }
     }
 }
