@@ -22,7 +22,7 @@ namespace API.Controllers
             var result = await _leadService.AddAsync(request);
 
             var all = await _leadService.GetAllAsync();
-            return Ok(result);
+            return Ok(all);
             /*
             var result = await _workshopService.GetActiveWorkshopsAsync();
 

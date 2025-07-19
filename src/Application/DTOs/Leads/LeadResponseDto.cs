@@ -21,8 +21,5 @@ namespace Application.DTOs.Leads
 
         [JsonPropertyName("vehicle")]
         public VehicleDto? Vehicle { get; set; }
-
-        [JsonPropertyName("message")]
-        public string Message { get; set; } // opcional, para dar feedback al cliente
     }
 }
