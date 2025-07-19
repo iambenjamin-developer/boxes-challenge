@@ -48,7 +48,7 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<bool> ExistsAsync(int workshopId, CancellationToken cancellationToken = default)
+        public async Task<bool> ExistsAsync(int workshopId)
         {
             var workshops = await GetActiveWorkshopsAsync();
 
