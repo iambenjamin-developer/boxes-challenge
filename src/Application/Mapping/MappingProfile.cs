@@ -9,9 +9,6 @@ namespace Application.Mapping
     {
         public MappingProfile()
         {
-            // Movies
-            CreateMap<Movie, MovieDto>();
-
             CreateMap<LeadRequestDto, Lead>();
             CreateMap<Lead, LeadResponseDto>();
 

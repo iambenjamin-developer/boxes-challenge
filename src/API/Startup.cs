@@ -34,12 +34,10 @@ namespace API
 
             // Registrar el repositorios
             services.AddScoped<ILeadRepository, LeadRepository>();
-            services.AddScoped<IMovieRepository, MovieRepository>();
 
             // Registrar el servicios
             services.AddScoped<ILeadRepository, LeadRepository>();
             services.AddScoped<ILeadService, LeadService>();
-            services.AddScoped<IMovieService, MovieService>();
 
             services.AddMemoryCache();
 
