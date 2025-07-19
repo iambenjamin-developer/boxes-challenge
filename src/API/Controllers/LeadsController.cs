@@ -9,46 +9,34 @@ namespace API.Controllers
     public class LeadsController : ControllerBase
     {
         private readonly ILeadService _leadService;
+        private readonly IWorkshopService _workshopService;
 
-        public LeadsController(ILeadService leadService)
+        public LeadsController(ILeadService leadService, IWorkshopService workshopService)
         {
             _leadService = leadService;
+            _workshopService = workshopService;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _leadService.GetAllAsync();
+            return Ok(result);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] LeadRequestDto request)
+        public async Task<IActionResult> Create([FromBody] LeadRequestDto request)
         {
-            var result = await _leadService.AddAsync(request);
-
-            var all = await _leadService.GetAllAsync();
-            return Ok(all);
-            /*
-            var result = await _workshopService.GetActiveWorkshopsAsync();
-
-            var lead = new Lead
+            bool workshopExists = await _workshopService.ExistsAsync(request.PlaceId);
+            if (!workshopExists)
             {
-                PlaceId = 2,
-                AppointmentAt = DateTime.Parse("2025-07-25T10:30:00Z"),
-                ServiceType = "cambio_aceite",
-                Contact = new Contact
-                {
-                    Name = "Juan Pérez",
-                    Email = "juan.perez@example.com",
-                    Phone = "+54 11 5555-5555"
-                },
-                Vehicle = new Vehicle
-                {
-                    Make = "Toyota",
-                    Model = "Corolla",
-                    Year = 2022,
-                    LicensePlate = "ABC123"
-                }
-            };
+                return BadRequest($"El taller con ID:{request.PlaceId} no existe o no está activo");
+            }
 
-            await _leadRepository.AddAsync(lead);
-            var leads = await _leadRepository.GetAllAsync();
-            */
+            var result = await _leadService.AddAsync(request);
+            return Ok(result);
         }
 
 
