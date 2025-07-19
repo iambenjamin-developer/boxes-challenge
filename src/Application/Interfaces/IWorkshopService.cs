@@ -6,6 +6,6 @@ namespace Application.Interfaces
     public interface IWorkshopService
     {
         Task<List<WorkshopDto>> GetActiveWorkshopsAsync();
-        Task<bool> ExistsAsync(int workshopId);
+        Task<bool> ExistsAsync(int workshopId, CancellationToken cancellationToken = default);
     }
 }

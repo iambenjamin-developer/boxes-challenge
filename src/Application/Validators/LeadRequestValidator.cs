@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Leads;
+using Application.Interfaces;
 using FluentValidation;
 using System.Globalization;
 
@@ -6,12 +7,22 @@ namespace Application.Validators
 {
     public class LeadRequestValidator : AbstractValidator<LeadRequestDto>
     {
-        public LeadRequestValidator()
+        private readonly IWorkshopService _workshopService;
+
+        public LeadRequestValidator(IWorkshopService workshopService)
         {
+            _workshopService = workshopService;
+
             // Validación de place_id - required, mayor que 0
             RuleFor(x => x.PlaceId)
                 .GreaterThan(0)
                 .WithMessage("PlaceId es requerido y debe ser mayor que 0");
+
+            // Validación de si el taller existe
+            //RuleFor(x => x.PlaceId)
+            //    .MustAsync(WorkshopExists)
+            //    .When(x => x.PlaceId > 0)
+            //    .WithMessage("El PlaceId no corresponde a un taller que exista o esté activo");
 
             // Validación de appointment_at - required, formato ISO 8601
             RuleFor(x => x.AppointmentAt)
@@ -24,7 +35,7 @@ namespace Application.Validators
 
             // Validación adicional para formato ISO 8601 específico
             RuleFor(x => x.AppointmentAt)
-                .Must(appointment => 
+                .Must(appointment =>
                 {
                     // Verificar que la fecha se puede formatear correctamente como ISO 8601
                     try
@@ -104,6 +115,19 @@ namespace Application.Validators
                     .MaximumLength(10)
                     .WithMessage("La patente del vehículo no puede exceder 10 caracteres");
             });
+
+        }
+
+        private async Task<bool> WorkshopExists(int placeId, CancellationToken ct)
+        {
+            try
+            {
+                return await _workshopService.ExistsAsync(placeId, ct);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

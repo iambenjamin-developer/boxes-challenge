@@ -48,13 +48,14 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<bool> ExistsAsync(int workshopId)
+        public async Task<bool> ExistsAsync(int workshopId, CancellationToken cancellationToken = default)
         {
             var workshops = await GetActiveWorkshopsAsync();
 
-            if (workshops.Count == 0)
+            // Si no hay talleres, simplemente retorna false en vez de lanzar excepción
+            if (workshops == null || workshops.Count == 0)
             {
-                throw new Exception($"No se encontraron talleres activos al verificar existencia de ID {workshopId}");
+                return false;
             }
 
             var workshopExists = workshops.Any(w => w.Id == workshopId && w.Active);
