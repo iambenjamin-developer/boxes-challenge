@@ -6,5 +6,6 @@ namespace Application.Interfaces
     {
         Task<List<LeadResponseDto>> GetAllAsync();
         Task<LeadResponseDto> AddAsync(LeadRequestDto request);
+        Task<LeadResponseDto> GetByIdAsync(long id);
     }
 }

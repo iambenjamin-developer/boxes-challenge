@@ -31,6 +31,30 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Obtiene un lead específico por su ID.
+        /// </summary>
+        /// <param name="id">ID del lead a obtener.</param>
+        /// <remarks>
+        /// Este endpoint devuelve un lead específico basado en su ID único.
+        /// </remarks>
+        /// <response code="200">Lead obtenido correctamente.</response>
+        /// <response code="404">Lead no encontrado.</response>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(LeadResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LeadResponseDto>> GetById(long id)
+        {
+            var result = await _leadService.GetByIdAsync(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Crea un nuevo lead.
         /// </summary>
         /// <param name="request">Datos del lead a crear.</param>
@@ -45,7 +69,7 @@ namespace API.Controllers
         public async Task<ActionResult<LeadResponseDto>> Create([FromBody] LeadRequestDto request)
         {
             var created = await _leadService.AddAsync(request);
-            return CreatedAtAction(nameof(GetAll), null, created);
+            return CreatedAtAction(nameof(GetById), null, created);
         }
     }
 }

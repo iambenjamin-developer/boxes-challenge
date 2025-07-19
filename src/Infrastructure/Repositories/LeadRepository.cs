@@ -28,5 +28,13 @@ namespace Infrastructure.Repositories
             return entity;
         }
 
+        public async Task<Lead> GetByIdAsync(long id)
+        {
+            return await _context.Leads
+                .Include(l => l.Contact)
+                .Include(l => l.Vehicle)
+                .FirstOrDefaultAsync(l => l.Id == id);
+        }
+
     }
 }

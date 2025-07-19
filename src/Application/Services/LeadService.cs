@@ -37,5 +37,15 @@ namespace Application.Services
             return _mapper.Map<Lead, LeadResponseDto>(entity);
         }
 
+
+        public async Task<LeadResponseDto> GetByIdAsync(long id)
+        {
+            var entity = await _leadRepository.GetByIdAsync(id);
+
+            if (entity == null) { return null; }
+
+            return _mapper.Map<Lead, LeadResponseDto>(entity);
+        }
+
     }
 }

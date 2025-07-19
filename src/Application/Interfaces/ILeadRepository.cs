@@ -6,5 +6,6 @@ namespace Application.Interfaces
     {
         Task<List<Lead>> GetAllAsync();
         Task<Lead> AddAsync(Lead entity);
+        Task<Lead> GetByIdAsync(long id);
     }
 }
