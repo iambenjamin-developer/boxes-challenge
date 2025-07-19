@@ -9,12 +9,10 @@ namespace API.Controllers
     public class LeadsController : ControllerBase
     {
         private readonly ILeadService _leadService;
-        private readonly IWorkshopService _workshopService;
 
-        public LeadsController(ILeadService leadService, IWorkshopService workshopService)
+        public LeadsController(ILeadService leadService)
         {
             _leadService = leadService;
-            _workshopService = workshopService;
         }
 
 
@@ -29,12 +27,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] LeadRequestDto request)
         {
-            bool workshopExists = await _workshopService.ExistsAsync(request.PlaceId);
-            if (!workshopExists)
-            {
-                return BadRequest($"El taller con ID:{request.PlaceId} no existe o no está activo");
-            }
-
             var result = await _leadService.AddAsync(request);
             return Ok(result);
         }
