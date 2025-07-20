@@ -68,8 +68,9 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<LeadResponseDto>> Create([FromBody] LeadRequestDto request)
         {
-            var created = await _leadService.AddAsync(request);
-            return CreatedAtAction(nameof(GetById), null, created);
+            var result = await _leadService.AddAsync(request);
+
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
     }
 }
