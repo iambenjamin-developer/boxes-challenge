@@ -6,7 +6,6 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Repositories;
-using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 

@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     public class WorkshopService : IWorkshopService
     {
