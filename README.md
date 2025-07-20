@@ -10,7 +10,7 @@ flowchart TD
     C -->|Error| F[400 Bad Request]
 
     D -->|place_id válido| E[Guardar en memoria / EF InMemory]
-    D -->|place_id inválido| F[422 Unprocessable Entity]
+    D -->|place_id inválido| F[400 Bad Request]
 
     E --> G[201 Created + Lead registrado]
 ```
@@ -58,8 +58,7 @@ src/
   - Tipos de servicio válidos
 - **Códigos de respuesta**:
   - `201 Created`: Lead creado exitosamente
-  - `400 Bad Request`: Datos inválidos
-  - `422 Unprocessable Entity`: Taller no válido
+  - `400 Bad Request`: Datos inválidos / Taller inexistente o inactivo
 
 ### **Acceder a la documentación**
    - Swagger UI: `https://localhost:7001/swagger`
