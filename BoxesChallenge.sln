@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		workshops_response.json = workshops_response.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests\Tests.csproj", "{70A2429B-5F16-464C-A0AF-EF73B04878A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{5E0897F3-77CF-40E9-8AC8-B97705289823}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E0897F3-77CF-40E9-8AC8-B97705289823}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E0897F3-77CF-40E9-8AC8-B97705289823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A2429B-5F16-464C-A0AF-EF73B04878A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A2429B-5F16-464C-A0AF-EF73B04878A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A2429B-5F16-464C-A0AF-EF73B04878A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A2429B-5F16-464C-A0AF-EF73B04878A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{6EDF3840-D3AC-43ED-9462-810A3F71A910} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{206E36FF-9E1B-490C-8B0D-426B80E32379} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5E0897F3-77CF-40E9-8AC8-B97705289823} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{70A2429B-5F16-464C-A0AF-EF73B04878A9} = {1A686B80-67BA-421C-BBAA-5E3FBA7FA501}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3F46D92-EFB6-4334-BDAF-A985A19ACD27}
