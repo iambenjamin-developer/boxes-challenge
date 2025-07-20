@@ -1,30 +1,20 @@
 ﻿using Application.DTOs.Workshops;
 using Application.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
 
 namespace Infrastructure.Services
 {
     public class WorkshopService : IWorkshopService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientService _httpClientService;
         private readonly IMemoryCache _cache;
         private const string CacheKey = "workshops";
-        private const string ApiUrl = "https://dev.tecnomcrm.com/api/v1/places/workshops";
+        private const string ApiRelativeUrl = "places/workshops";
 
-        public WorkshopService(HttpClient httpClient, IMemoryCache cache)
+        public WorkshopService(IHttpClientService httpClientService, IMemoryCache cache)
         {
-            _httpClient = httpClient;
+            _httpClientService = httpClientService;
             _cache = cache;
-
-            var authToken = Convert.ToBase64String(
-                Encoding.ASCII.GetBytes("max@tecnom.com.ar:b0x3sApp")
-            );
-
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Basic", authToken);
         }
 
         public async Task<List<WorkshopDto>> GetActiveWorkshopsAsync()
@@ -36,7 +26,8 @@ namespace Infrastructure.Services
             }
 
             // Si no está en caché, llamar a la API externa
-            var response = await _httpClient.GetFromJsonAsync<List<WorkshopDto>>(ApiUrl);
+            // Llama a la API y deserializa la respuesta a List<WorkshopDto>
+            var response = await _httpClientService.GetAsync<List<WorkshopDto>>(ApiRelativeUrl);
 
             if (response is null)
                 return new List<WorkshopDto>();

@@ -8,7 +8,6 @@ using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace API
@@ -38,18 +37,22 @@ namespace API
             // Registrar el servicios
             services.AddScoped<ILeadRepository, LeadRepository>();
             services.AddScoped<ILeadService, LeadService>();
+            services.AddScoped<IWorkshopService, WorkshopService>();
 
             services.AddMemoryCache();
 
-            services.AddHttpClient<IWorkshopService, WorkshopService>(client =>
+            services.AddHttpClient<IHttpClientService, HttpClientService>((serviceProvider, client) =>
             {
-                client.BaseAddress = new Uri("https://dev.tecnomcrm.com/api/v1/");
-                // Si quieres, puedes agregar encabezados por defecto:
+                string url = Configuration["WorkshopApi:Url"];
+                string username = Configuration["WorkshopApi:Username"];
+                string password = Configuration["WorkshopApi:Password"];
+
+                client.BaseAddress = new Uri(url);
                 var credentials = Convert.ToBase64String(
-                    Encoding.ASCII.GetBytes("max@tecnom.com.ar:b0x3sApp")
+                    Encoding.ASCII.GetBytes($"{username}:{password}")
                 );
                 client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Basic", credentials);
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
             });
 
             services.AddControllers();
