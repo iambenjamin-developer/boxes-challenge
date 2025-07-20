@@ -19,10 +19,7 @@ namespace Application.Services
             var response = await _client.GetAsync(url, cancellationToken);
             response.EnsureSuccessStatusCode();
 
-            // Leer el contenido como string para inspección/debug
             var jsonString = await response.Content.ReadAsStringAsync(cancellationToken);
-            // TODO: Loguear o inspeccionar el JSON recibido
-            // Console.WriteLine(jsonString); // O usar un logger
 
             var options = new JsonSerializerOptions
             {
