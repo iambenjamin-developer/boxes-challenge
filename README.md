@@ -61,8 +61,8 @@ src/
   - `400 Bad Request`: Datos inválidos / Taller inexistente o inactivo
 
 ### **Acceder a la documentación**
-   - Swagger UI: `https://localhost:7001/swagger`
-   - API Base: `https://localhost:7001/api`
+   - Swagger UI: `https://localhost:7010/swagger`
+   - API Base: `https://localhost:7010/api`
 
 
 ### Lead Request ejemplo:
