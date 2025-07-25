@@ -7,6 +7,8 @@ using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Polly.Extensions.Http;
+using Polly;
 using System.Text;
 
 namespace API
@@ -52,7 +54,17 @@ namespace API
                 );
                 client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-            });
+            })
+            // 1) Timeout: falla si tarda >10s
+            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10)))
+            // 2) Circuit‑Breaker: tras 2 fallos seguidos (5xx, 4xx o excepción), rompe 30s
+            .AddPolicyHandler(HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(
+                    handledEventsAllowedBeforeBreaking: 2,
+                    durationOfBreak: TimeSpan.FromSeconds(30)
+                )
+            );
 
             services.AddControllers();
 
