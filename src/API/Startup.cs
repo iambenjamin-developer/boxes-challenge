@@ -1,4 +1,5 @@
-﻿using Application;
+﻿using API.Filters;
+using Application;
 using Application.Interfaces;
 using Application.Services;
 using Application.Validators;
@@ -7,8 +8,8 @@ using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Polly.Extensions.Http;
 using Polly;
+using Polly.Extensions.Http;
 using System.Text;
 
 namespace API
@@ -66,7 +67,10 @@ namespace API
                 )
             );
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ApiExceptionFilterAttribute>(); // Register the global exception filter
+            });
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();

@@ -35,17 +35,17 @@ namespace Application.Services
             catch (TimeoutRejectedException)
             {
                 string msg = "504 ⏳ Tiempo agotado para consultar la API (mayor a 10 segundos)";
-                throw;
+                throw new TimeoutRejectedException();
             }
             catch (BrokenCircuitException)
             {
                 string msg = "503 ⛔ Circuito abierto - la API no está disponible.";
-                throw;
+                throw new BrokenCircuitException();
             }
             catch (Exception ex)
             {
                 string msg = "500 💥 Error inesperado";
-                throw;
+                throw new Exception();
             }
         }
     }
