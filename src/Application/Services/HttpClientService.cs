@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Polly.CircuitBreaker;
+using Polly.Timeout;
 using System.Text.Json;
 
 namespace Application.Services
@@ -30,9 +32,19 @@ namespace Application.Services
                 var result = JsonSerializer.Deserialize<T>(jsonString, options);
                 return result;
             }
+            catch (TimeoutRejectedException)
+            {
+                string msg = "504 ⏳ Tiempo agotado para consultar la API (mayor a 10 segundos)";
+                throw;
+            }
+            catch (BrokenCircuitException)
+            {
+                string msg = "503 ⛔ Circuito abierto - la API no está disponible.";
+                throw;
+            }
             catch (Exception ex)
             {
-                string test = ex.Message;
+                string msg = "500 💥 Error inesperado";
                 throw;
             }
         }
