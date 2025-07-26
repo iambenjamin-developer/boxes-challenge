@@ -102,3 +102,36 @@ src/
 - **IMemoryCache**: Evita consultas innecesarias a la API externa
 
 
+### Para probar Timeout / BrokenCircuit con Polly, ejecutar otra api con un endpoint como este:
+
+#### Para Timeout, solo con dejar el debugger por más de 10 segundos se activa, y luego si se vuelve a ejecutar el endpoint, se activa el BrokenCircuit.
+```
+[HttpGet("/api/v1/places/workshops")]
+public IActionResult Post()
+{
+    bool isAvailable = false; 
+
+    if (!isAvailable)
+    {
+        // Devuelve 503 Service Unavailable con un payload opcional
+        return StatusCode(
+            StatusCodes.Status503ServiceUnavailable,
+            new { error = "Servidor no disponible. Por favor, inténtalo más tarde." }
+        );
+    }
+
+    // Si todo está OK:
+    return Ok(new { message = "Aquí van los talleres disponibles…" });
+}
+
+```
+
+### Modificar `appsettings.json` para simular:
+```
+"AllowedHosts": "*",
+  "WorkshopApi": {
+    "Url": "https://localhost:7074/api/v1/",
+    "Username": "myUsername",
+    "Password": "myPassword"
+  }
+```
