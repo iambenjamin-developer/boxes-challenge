@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using Application.Exceptions;
-using Polly.Timeout;
-using Polly.CircuitBreaker;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Filters
 {
@@ -17,8 +15,8 @@ namespace API.Filters
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(TimeoutRejectedException), HandleTimeoutException },
-                { typeof(BrokenCircuitException), HandleBrokenCircuitException },
+                { typeof(GatewayTimeoutException), HandleGatewayTimeoutException },
+                { typeof(ServiceUnavailableException), HandleServiceUnavailableException },
                 //{ typeof(ValidationException), HandleValidationException },
                 //{ typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
@@ -84,7 +82,7 @@ namespace API.Filters
             {
                 Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4",
                 Title = "NotFound",
-                Detail = exception.Message
+                Detail = exception?.Message
             };
 
             context.Result = new NotFoundObjectResult(details);
@@ -92,14 +90,14 @@ namespace API.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandleTimeoutException(ExceptionContext context)
+        private void HandleGatewayTimeoutException(ExceptionContext context)
         {
-
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status504GatewayTimeout,
                 Title = "GatewayTimeout",
-                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.5"
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.5",
+                Detail = context.Exception.Message
             };
 
             context.Result = new ObjectResult(details)
@@ -110,13 +108,14 @@ namespace API.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandleBrokenCircuitException(ExceptionContext context)
+        private void HandleServiceUnavailableException(ExceptionContext context)
         {
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status503ServiceUnavailable,
                 Title = "ServiceUnavailable",
-                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.4"
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.4",
+                Detail = context.Exception.Message
             };
 
             context.Result = new ObjectResult(details)

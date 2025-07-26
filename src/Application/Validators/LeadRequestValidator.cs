@@ -20,10 +20,12 @@ namespace Application.Validators
                 .WithMessage("PlaceId es requerido y debe ser mayor que 0");
 
             // Validación de si el taller existe
+            /*
             RuleFor(x => x.PlaceId)
                 .Must(WorkshopExists)
                 .When(x => x.PlaceId > 0)
                 .WithMessage("El PlaceId no corresponde a un taller que exista o esté activo");
+            */
 
             // Validación de appointment_at - required, formato ISO 8601
             RuleFor(x => x.AppointmentAt)

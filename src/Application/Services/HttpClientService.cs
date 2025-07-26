@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Polly.CircuitBreaker;
 using Polly.Timeout;
 using System.Text.Json;
@@ -35,17 +36,17 @@ namespace Application.Services
             catch (TimeoutRejectedException)
             {
                 string msg = "504 ⏳ Tiempo agotado para consultar la API (mayor a 10 segundos)";
-                throw new TimeoutRejectedException();
+                throw new GatewayTimeoutException(msg);
             }
             catch (BrokenCircuitException)
             {
-                string msg = "503 ⛔ Circuito abierto - la API no está disponible.";
-                throw new BrokenCircuitException();
+                string msg = "503 ⛔ Circuito abierto - API no disponible.";
+                throw new ServiceUnavailableException(msg);
             }
             catch (Exception ex)
             {
                 string msg = "500 💥 Error inesperado";
-                throw new Exception();
+                throw new Exception($"{msg}. {ex.Message}");
             }
         }
     }

@@ -9,10 +9,12 @@ namespace API.Controllers
     public class LeadsController : ControllerBase
     {
         private readonly ILeadService _leadService;
+        private readonly IWorkshopService _workshopService;
 
-        public LeadsController(ILeadService leadService)
+        public LeadsController(ILeadService leadService, IWorkshopService workshopService)
         {
             _leadService = leadService;
+            _workshopService = workshopService;
         }
 
         /// <summary>
@@ -68,6 +70,12 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<LeadResponseDto>> Create([FromBody] LeadRequestDto request)
         {
+            bool workshopExists = await _workshopService.ExistsAsync(request.PlaceId);
+            if (!workshopExists)
+            {
+                return BadRequest("El PlaceId no corresponde a un taller que exista o esté activo.");
+            }
+
             var result = await _leadService.AddAsync(request);
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
