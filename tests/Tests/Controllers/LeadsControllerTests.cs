@@ -118,6 +118,8 @@ namespace Tests.Controllers
                 Contact = request.Contact,
                 Vehicle = request.Vehicle
             };
+
+            _mockWorkshopService.Setup(service => service.ExistsAsync(createdLead.PlaceId)).ReturnsAsync(true);
             _mockLeadService.Setup(service => service.AddAsync(request)).ReturnsAsync(createdLead);
 
             // Act
