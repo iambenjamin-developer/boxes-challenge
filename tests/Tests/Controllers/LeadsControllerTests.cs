@@ -10,12 +10,15 @@ namespace Tests.Controllers
     public class LeadsControllerTests
     {
         private readonly Mock<ILeadService> _mockLeadService;
+        private readonly Mock<IWorkshopService> _mockWorkshopService;
+
         private readonly LeadsController _controller;
 
         public LeadsControllerTests()
         {
             _mockLeadService = new Mock<ILeadService>();
-            _controller = new LeadsController(_mockLeadService.Object);
+            _mockWorkshopService = new Mock<IWorkshopService>();
+            _controller = new LeadsController(_mockLeadService.Object, _mockWorkshopService.Object);
         }
 
         [Fact]
